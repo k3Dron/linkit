@@ -10,16 +10,14 @@
 .svn/
 migrate_working_dir/
 
-# IntelliJ related
+# IntelliJ/Android Studio related
 *.iml
 *.ipr
 *.iws
 .idea/
 
-# The .vscode folder contains launch configuration and tasks you configure in
-# VS Code which you may wish to be included in version control, so this line
-# is commented out by default.
-#.vscode/
+# VS Code
+.vscode/  # Add this only if your team doesn't share launch configs
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -27,17 +25,49 @@ migrate_working_dir/
 .dart_tool/
 .flutter-plugins
 .flutter-plugins-dependencies
+.packages
 .pub-cache/
 .pub/
-/build/
+build/
 
-# Symbolication related
-app.*.symbols
+# Firebase (for FlutterFire CLI and Hosting)
+firebase-debug.log
+firebase_app_id_file.json
+# firebase.json  # Uncomment if you don't want to track Firebase Hosting config
 
-# Obfuscation related
-app.*.map.json
-
-# Android Studio will place build artifacts here
+# Android Studio specific build artifacts
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/.gradle/
+android/local.properties
+android/captures/
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/*.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/.dart_tool/
+
+# macOS
+macos/Pods/
+macos/.symlinks/
+macos/Flutter/*.framework
+macos/Flutter/Flutter.podspec
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/.dart_tool/
+
+# Windows
+windows/flutter/
+
+# Linux
+linux/flutter/
+
+# Web
+web/generated_plugin_registrant.dart
+
+# Obfuscation related
+app.*.symbols
+app.*.map.json
