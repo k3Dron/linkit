@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "358447960876",
+    "project_id": "linkit-9d8e1",
+    "storage_bucket": "linkit-9d8e1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:358447960876:android:e5f15be36f63fe569e5289",
+        "android_client_info": {
+          "package_name": "com.example.linkit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXS0bWHyoRokzlPjG03I3Se6mZ2hL15FA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
