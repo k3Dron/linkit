@@ -3,6 +3,7 @@ import 'package:linkit/screens/SettingPage/Components/profile_card.dart';
 import 'package:linkit/screens/SettingPage/Components/section_header.dart';
 import 'package:linkit/screens/SettingPage/Components/settings_switch_tile.dart';
 import 'package:linkit/screens/SettingPage/Components/settings_tile.dart';
+import 'package:linkit/services/SettingsServices/logout.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -84,6 +85,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
             trailingIcon: Icons.chevron_right,
             onTap: () {},
           ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            onPressed: firebaseLogout, 
+            child: Text('Log Out'))
         ],
       ),
     );
