@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:linkit/screens/Home/home_screen.dart';
 import 'package:linkit/screens/Login/Login_part2.dart';
 import 'package:flutter/gestures.dart';
@@ -173,24 +174,79 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),
                 const SizedBox(height: 30),
                 CustomButton(
-                  onPressed: () {
-                    if (_formKey.currentState?.validate() ?? false) {
-                       Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (ctx) => HomeScreen()),
-                      );
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Please fill in all the fields correctly',
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                  text: "Create Account",
-                ),
+  onPressed: () async {
+    // Trim the email to remove spaces
+    final email = emailController.text.trim();
+    final password = passwordController.text;
+
+    // Check if form is valid
+    if (!_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please fill in all the fields correctly"),
+        ),
+      );
+      return;
+    }
+
+    // Extra email format check (optional, Regex is already used in validator)
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(email)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please enter a valid email address"),
+        ),
+      );
+      return;
+    }
+
+    // Password length check (optional, already in validator)
+    if (password.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password must be at least 6 characters long"),
+        ),
+      );
+      return;
+    }
+
+    try {
+      // Optional: Check if email already exists in Firebase
+      // Just attempt to create a new account
+      final userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (userCredential.user != null) {
+        // Successfully created account, navigate to Home
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const HomeScreen()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      String message = "Account creation failed";
+      if (e.code == 'email-already-in-use') {
+        message = "This email is already registered";
+      } else if (e.code == 'invalid-email') {
+        message = "Invalid email format";
+      } else if (e.code == 'weak-password') {
+        message = "Password is too weak";
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Something went wrong")),
+      );
+    }
+  },
+  text: "Create Account",
+),
+
                 const SizedBox(height: 20),
                 Center(
                   child: RichText(

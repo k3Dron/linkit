@@ -1,7 +1,7 @@
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -31,4 +31,28 @@ class AuthService {
   Future<void> signOut() async => _auth.signOut();
 
   User? get currentUser => _auth.currentUser;
+   Future<UserCredential?> signInWithApple() async {
+    try {
+      if (Platform.isIOS) {
+        final credential = await SignInWithApple.getAppleIDCredential(
+          scopes: [
+            AppleIDAuthorizationScopes.email,
+            AppleIDAuthorizationScopes.fullName,
+          ],
+        );
+
+        final oauthCredential = OAuthProvider("apple.com").credential(
+          idToken: credential.identityToken,
+          accessToken: credential.authorizationCode,
+        );
+
+        return await _auth.signInWithCredential(oauthCredential);
+      } else {
+        throw UnsupportedError("Apple Sign-In is only supported on iOS");
+      }
+    } catch (e) {
+      print("Apple Sign-In error: $e");
+      return null;
+    }
+  }
 }
