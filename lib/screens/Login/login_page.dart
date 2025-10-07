@@ -4,7 +4,7 @@ import 'package:linkit/screens/Home/home_screen.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
-  final AuthService _authService = AuthService();
+    final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +17,14 @@ class LoginPage extends StatelessWidget {
             foregroundColor: Colors.black,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
           ),
-          onPressed: () async {
+          onPressed: () async{
             final userCred = await _authService.signInWithGoogle();
             if (userCred != null) {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => const HomeScreen()),
               );
-            }
+             }
           },
           child: const Text("Sign in with Google"),
         ),
